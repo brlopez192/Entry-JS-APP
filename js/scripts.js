@@ -11,11 +11,11 @@ let pokemonList = [
 ];
 
 for (let i = 0; i < pokemonList.length; i++) {
-    document.write(`${pokemonList[i].name}: ${pokemonList[i].Height}, `)
+    document.write("<p>" + `${pokemonList[i].name}: ${pokemonList[i].Height}` + "</p>")
 }
 
 for (let i = 0; i < pokemonList.length; i++) {
     if (pokemonList[i].Height > 10) {
-        document.write(`${pokemonList[i].name} is the Biggest Pokemon`)
+        document.write("<p>" + `${pokemonList[i].name} is the Biggest Pokemon` + "</p>")
     }
 }
