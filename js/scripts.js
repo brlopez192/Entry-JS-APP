@@ -11,13 +11,29 @@ let pokemonRepository = (function() {
             Height: 5, 
             type: ['Water 1', 'Monster']}
         ];
+        function addListItem(pokemon) {
+            let pokemonList = document.querySelector('.pokemon-list');
+            let listPokemon = document.createElement("li");
+            let button = document.createElement("button");
+            button.innerText = pokemon.name;
+            button.classList.add("button-class");
+            button.addEventListener('click', function () {
+                showDetails(pokemon);
+            });
+            listPokemon.appendChild(button);
+            pokemonList.appendChild(listPokemon);
+        }
+        function showDetails(pokemon) {
+            console.log(pokemon.name)
+        }
         return {
             add: function() {
                 pokemonList.push(pokemon);
             },
             getAll: function() {
                 return pokemonList;
-            }
+            },
+            addListItem: addListItem,
         };
 })();
 
@@ -28,7 +44,7 @@ let pokemonRepository = (function() {
 
 // ForEach method to print out details of each pokemon
 pokemonRepository.getAll().forEach(function(pokemon) {
-    document.write("<p>" + `${pokemon.name}: ${pokemon.Height}`);
+    pokemonRepository.addListItem(pokemon)
 });
 
 // For loop to print out which pokemon is the biggest
