@@ -12,9 +12,13 @@ let pokemonList = [
 ];
 
 // For loop to print out the details of each pokemon
-for (let i = 0; i < pokemonList.length; i++) {
-    document.write("<p>" + `${pokemonList[i].name}: ${pokemonList[i].Height}` + "</p>")
-}
+// for (let i = 0; i < pokemonList.length; i++) {
+//     document.write("<p>" + `${pokemonList[i].name}: ${pokemonList[i].Height}` + "</p>")
+// }
+
+pokemonList.forEach(function(name) {
+    document.write(`${name}`);
+})
 
 // For loop to print out which pokemon is the biggest
 for (let i = 0; i < pokemonList.length; i++) {
