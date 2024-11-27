@@ -1,16 +1,24 @@
 // Declaration of pokemon array with each object
 let pokemonRepository = (function() {
-    let pokemonList = [
-        {name: 'Bulbasaur', 
-            Height: 7, 
-            type: ['Grass', 'Monster']},
-        {name: 'Charizard', 
-            Height: 17, 
-            type: ['Dragon', 'Monster']},
-        {name: 'Squirtle', 
-            Height: 5, 
-            type: ['Water 1', 'Monster']}
-        ];
+    let pokemonList = [];
+    let apiURL = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+
+        function add(pokemon) {
+            if (
+                typeof pokemon === "object" &&
+                "name" in pokemon &&
+                "detailsURL" in pokemon
+            ) {
+                pokemonList.push(pokemon);
+            } else {
+                console.log("Pokemon is not correct");
+            }
+        }
+
+        function getAll() {
+            return pokemonList;
+        }
+
         function addListItem(pokemon) {
             let pokemonList = document.querySelector('.pokemon-list');
             let listPokemon = document.createElement("li");
@@ -24,16 +32,45 @@ let pokemonRepository = (function() {
             pokemonList.appendChild(listPokemon);
         }
         function showDetails(pokemon) {
-            console.log(pokemon.name)
+            loadDetails(pokemon).then(function () {
+                console.log(pokemon);
+            });
+        }
+
+        function loadList() {
+            return fetch(apiURL).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                json.results.forEach(function (item) {
+                    let pokemon = {
+                        name: item.name,
+                        detailsURL: item.url
+                    };
+                    add(pokemon);
+                });
+            }).catch(function (e) {
+                console.error(e);
+            })
+        }
+        function loadDetails(item) {
+            let url = item.detailsURL;
+            return fetch(url).then(function (response) {
+                return response.json();
+            }).then(function (details) {
+                item.imageURL = details.sprites.front_default;
+                item.height = details.height;
+                item.types = details.types;
+            }).catch(function (e) {
+                console.error(e)
+            });
         }
         return {
-            add: function() {
-                pokemonList.push(pokemon);
-            },
-            getAll: function() {
-                return pokemonList;
-            },
+            add: add,
+            getAll: getAll,
             addListItem: addListItem,
+            loadList: loadList,
+            loadDetails: loadDetails,
+            showDetails: showDetails
         };
 })();
 
@@ -43,13 +80,15 @@ let pokemonRepository = (function() {
 // }
 
 // ForEach method to print out details of each pokemon
-pokemonRepository.getAll().forEach(function(pokemon) {
-    pokemonRepository.addListItem(pokemon)
+pokemonRepository.loadList().then(function() {
+    pokemonRepository.getAll().forEach(function(pokemon) {
+        pokemonRepository.addListItem(pokemon);
+    });
 });
 
 // For loop to print out which pokemon is the biggest
-for (let i = 0; i < pokemonRepository.getAll().length; i++) {
-    if (pokemonRepository.getAll()[i].Height > 10) {
-        document.write("<p>" + `${pokemonRepository.getAll()[i].name} is the Biggest Pokemon` + "</p>")
-    }
-}
+// for (let i = 0; i < pokemonRepository.getAll().length; i++) {
+//     if (pokemonRepository.getAll()[i].Height > 10) {
+//         document.write("<p>" + `${pokemonRepository.getAll()[i].name} is the Biggest Pokemon` + "</p>")
+//     }
+// }
