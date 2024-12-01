@@ -31,11 +31,57 @@ let pokemonRepository = (function() {
             listPokemon.appendChild(button);
             pokemonList.appendChild(listPokemon);
         }
-        function showDetails(pokemon) {
-            loadDetails(pokemon).then(function () {
-                console.log(pokemon);
+        
+        function showModal(title, text, img) {
+            let modalContainer = document.querySelector('#modal-container');
+            modalContainer.innerText = '';
+            let modal = document.createElement('div');
+            modal.classList.add('modal');
+            let closeButtonElement = document.createElement('button');
+
+            closeButtonElement.classList.add('modal-close');
+            closeButtonElement.innerText = 'Close';
+            closeButtonElement.addEventListener('click', hideModal);
+      
+            let pokemonName = document.createElement('h1');
+            pokemonName.innerText = title;
+            let pokemonHeight = document.createElement('p');
+            pokemonHeight.innerText = text;
+            let pokemonImage = document.createElement('img');
+
+            pokemonImage.setAttribute('src', img);
+            pokemonImage.setAttribute('width', '100%');
+            pokemonImage.setAttribute('height', '100%');
+      
+            modal.appendChild(closeButtonElement);
+            modal.appendChild(pokemonName);
+            modal.appendChild(pokemonHeight);
+            modal.appendChild(pokemonImage);
+            modalContainer.appendChild(modal);
+      
+            modalContainer.classList.add('is-visible');
+      
+            modalContainer.addEventListener('click', (e) => {
+              let target = e.target;
+              if (target === modalContainer) {
+                hideModal();
+              }
             });
-        }
+          }
+          function hideModal() {
+            let modalContainer = document.querySelector('#modal-container');
+            modalContainer.classList.remove('is-visible');
+          }
+
+          function showDetails(pokemon) {
+            loadDetails(pokemon).then(function () {
+              showModal(
+                pokemon.name,
+                "Height: " + pokemon.height,
+                pokemon.imageURL
+              );
+            });
+          }
 
         function loadList() {
             return fetch(apiURL).then(function(response) {
