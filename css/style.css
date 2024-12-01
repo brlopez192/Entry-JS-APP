@@ -51,6 +51,7 @@
   .modal-close {
     float: right;
     -webkit-appearance: none;
+    appearance: none;
     border: 0;
     background: none;
     color: white;
