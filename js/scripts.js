@@ -31,7 +31,7 @@ let pokemonRepository = (function() {
             listPokemon.appendChild(button);
             pokemonList.appendChild(listPokemon);
         }
-        
+
         function showModal(title, text, img) {
             let modalContainer = document.querySelector('#modal-container');
             modalContainer.innerText = '';
@@ -75,11 +75,9 @@ let pokemonRepository = (function() {
 
           function showDetails(pokemon) {
             loadDetails(pokemon).then(function () {
-              showModal(
-                pokemon.name,
+              showModal( pokemon.name,
                 "Height: " + pokemon.height,
-                pokemon.imageURL
-              );
+                pokemon.imageURL);
             });
           }
 
