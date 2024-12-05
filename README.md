@@ -1,0 +1,1 @@
+This Application presents an intex of Pokemon for the user to see. Each pokemon selected will present a modal with the name, picture and height of each pokemon.
